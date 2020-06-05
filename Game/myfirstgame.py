@@ -50,6 +50,8 @@ class player(object):
 		#pygame.draw.rect(win, (255,0,0), self.hitbox,2)
 
 	def hit(self):
+		self.isJump = False
+		self.jumpCount = 10
 		self.x = 60
 		self.y = 410
 		self.walkCount = 0
@@ -139,7 +141,7 @@ class enemy(object):
 def redrawGameWindow():
 	win.blit(bg, (0,0))
 	text = font.render('Score: ' + str(score), 1, (0,0,0))
-	win.blit(text, (390,10))
+	win.blit(text, (350,10))
 	man.draw(win)
 	goblin.draw(win)
 	for bullet in bullets:
@@ -157,10 +159,11 @@ run = True
 while run:
 	clock.tick(27)
 
-	if man.hitbox[1] < goblin.hitbox[1] + goblin.hitbox[3] and man.hitbox[1] > goblin.hitbox[1]:
-		if man.hitbox[0] + man.hitbox[2] > goblin.hitbox[0] and man.hitbox[0] < goblin.hitbox[0] + goblin.hitbox[2]:
-			man.hit()
-			score -= 5
+	if goblin.visible == True:
+		if man.hitbox[1] < goblin.hitbox[1] + goblin.hitbox[3] and man.hitbox[1] > goblin.hitbox[1]:
+			if man.hitbox[0] + man.hitbox[2] > goblin.hitbox[0] and man.hitbox[0] < goblin.hitbox[0] + goblin.hitbox[2]:
+				man.hit()
+				score -= 5
 
 	if shootLoop > 0:
 		shootLoop += 1
